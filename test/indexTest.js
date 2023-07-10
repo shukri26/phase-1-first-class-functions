@@ -1,79 +1,47 @@
-describe('index.js', function () {
-  describe('cats', function () {
-    it('is assigned an initial value of ["Milo", "Otis", "Garfield"]', function () {
-      expect(cats).to.have.ordered.members(["Milo", "Otis", "Garfield"]);
+const chai = require("chai");
+const spies = require("chai-spies");
+chai.use(spies);
+
+describe("index", () => {
+  describe("receivesAFunction(callback)", () => {
+    it("receives a function and calls it", () => {
+      const spy = chai.spy();
+
+      receivesAFunction(spy);
+
+      expect(spy).to.have.been.called();
     });
   });
 
-  describe('Array functions', function () {
-    beforeEach(function () {
-      cats.length = 0;
+  describe("returnsANamedFunction()", () => {
+    var fn;
 
-      cats.push('Milo', 'Otis', 'Garfield');
+    before(() => {
+      fn = returnsANamedFunction();
     });
 
-    describe('destructivelyAppendCat(name)', function () {
-      it('appends a cat to the end of the cats array', function () {
-        destructivelyAppendCat('Ralph');
-
-        expect(cats).to.have.ordered.members(["Milo", "Otis", "Garfield", "Ralph"]);
-      });
+    it("returns a function", () => {
+      expect(fn).to.be.a("function");
     });
 
-    describe('destructivelyPrependCat(name)', function () {
-      it('prepends a cat to the beginning of the cats array', function () {
-        destructivelyPrependCat("Bob");
+    it("returns a named function", () => {
+      expect(fn.name).not.to.eql("");
+    });
+  });
 
-        expect(cats).to.have.ordered.members(["Bob", "Milo", "Otis", "Garfield"]);
-      });
+  describe("returnsAnAnonymousFunction()", () => {
+    var fn;
+
+    before(() => {
+      fn = returnsAnAnonymousFunction();
     });
 
-    describe('destructivelyRemoveLastCat()', function () {
-      it('removes the last cat from the cats array', function () {
-        destructivelyRemoveLastCat();
-
-        expect(cats).to.have.ordered.members(["Milo", "Otis"]).and.to.not.include('Garfield');
-      });
+    it("returns a function", () => {
+      expect(fn).to.be.a("function");
     });
 
-    describe('destructivelyRemoveFirstCat()', function () {
-      it('removes the first cat from the cats array', function () {
-        destructivelyRemoveFirstCat();
-
-        expect(cats).to.have.ordered.members(["Otis", "Garfield"]).and.to.not.include('Milo');
-      });
-    });
-
-    describe('appendCat(name)', function () {
-      it('appends a cat to the cats array and returns a new array, leaving the cats array unchanged', function () {
-        expect(appendCat("Broom")).to.have.ordered.members(["Milo", "Otis", "Garfield", "Broom"]);
-
-        expect(cats).to.have.ordered.members(["Milo", "Otis", "Garfield"]);
-      });
-    });
-
-    describe('prependCat(name)', function () {
-      it('prepends a cat to the cats array and returns a new array, leaving the cats array unchanged', function () {
-        expect(prependCat("Arnold")).to.have.ordered.members(["Arnold", "Milo", "Otis", "Garfield"]);
-
-        expect(cats).to.have.ordered.members(["Milo", "Otis", "Garfield"]);
-      });
-    });
-
-    describe('removeLastCat()', function () {
-      it('removes the last cat in the cats array and returns a new array, leaving the cats array unchanged', function () {
-        expect(removeLastCat()).to.have.ordered.members(["Milo", "Otis"]);
-
-        expect(cats).to.have.ordered.members(["Milo", "Otis", "Garfield"]);
-      });
-    });
-
-    describe('removeFirstCat()', function () {
-      it('removes the first cat from the cats array and returns a new array, leaving the cats array unchanged', function () {
-        expect(removeFirstCat()).to.have.ordered.members(["Otis", "Garfield"]);
-
-        expect(cats).to.have.ordered.members(["Milo", "Otis", "Garfield"]);
-      });
+    it("returns an anonymous function", () => {
+      expect(fn.name).to.eql("");
     });
   });
 });
